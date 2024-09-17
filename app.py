@@ -5,6 +5,7 @@ import base64
 import os
 from dotenv import load_dotenv
 from requests import post, get
+from flask_cors import CORS
 
 # Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -13,6 +14,7 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 app = Flask(__name__)
+CORS(app)  # Permite todas as origens
 
 
 def get_token():
