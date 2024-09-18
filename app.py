@@ -44,14 +44,21 @@ def search_for_album_covers(token, query):
     print(f"API Response: {json_result}")  # Print the API response
 
     # Extrair capas de álbuns dos resultados
-    album_covers = []
+    album_data_list = []
     for album in json_result.get('albums', {}).get('items', []):
-        album_cover = album.get('images', [{}])[0].get('url', None)
-        if album_cover:
-            album_covers.append(album_cover)
+        album_cover_url = album.get('images', [{}])[0].get('url', None)
+        album_data = {
+            'albumType': album.get('album_type', 'Unknown'),
+            'albumName': album.get('name', 'Unknown'),
+            'releaseDate': album.get('release_date', 'Unknown'),
+            'albumUri': album.get('external_urls', {}).get('spotify', 'Unknown'),
+            'artistName': album['artists'][0].get('name', 'Unknown') if album.get('artists') else 'Unknown',
+            'albumCover': album_cover_url
+        }
+        album_data_list.append(album_data)
 
-    print(f"Album Covers: {album_covers}")  # Print the list of album covers
-    return album_covers
+    print(f"Album Data: {album_data_list}")  # Print the list of album data
+    return album_data_list
 
 
 @app.route('/api/get_album_covers', methods=['GET'])
