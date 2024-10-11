@@ -43,9 +43,10 @@ def search_for_album_covers(token, query):
     json_result = result.json()
     print(f"API Response: {json_result}")  # Print the API response
 
-    # Extrair capas de álbuns dos resultados
+    # Instancia uma lista de objetos "album"
     album_data_list = []
     for album in json_result.get('albums', {}).get('items', []):
+        # Para cada resultado da pesquisa adiciona o item na lista
         album_cover_url = album.get('images', [{}])[0].get('url', None)
         album_data = {
             'albumType': album.get('album_type', 'Unknown'),
@@ -57,9 +58,8 @@ def search_for_album_covers(token, query):
         }
         album_data_list.append(album_data)
 
-    print(f"Album Data: {album_data_list}")  # Print the list of album data
+    print(f"Album Data: {album_data_list}")
     return album_data_list
-
 
 @app.route('/api/get_album_covers', methods=['GET'])
 def get_album_covers():
@@ -69,10 +69,9 @@ def get_album_covers():
 
     token = get_token()
     album_covers = search_for_album_covers(token, query)
-    print(f"Query: {query}")  # Print the query
-    print(f"Album Covers Sent to Frontend: {album_covers}")  # Print the album covers sent to frontend
+    print(f"Query: {query}")
+    print(f"Album Covers Sent to Frontend: {album_covers}")
     return jsonify(album_covers)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
