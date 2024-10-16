@@ -70,7 +70,7 @@ def get_album_covers():
     token = get_token()
     album_covers = search_for_album_covers(token, query)
     print(f"Query: {query}")
-    print(f"Album Covers Sent to Frontend: {album_covers}")
+    print(f"Data sent to Frontend: {album_covers}")
     return jsonify(album_covers)
 
 if __name__ == '__main__':
